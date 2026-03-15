@@ -1,0 +1,26 @@
+name: Generate Release File
+
+on:
+  push:
+    tags:
+      - "release*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Create release file
+        run: |
+          echo "This is a sample release file for CD assignment" > release.txt
+          tar -czf release.tar.gz release.txt
+
+      - name: Upload Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: release.tar.gz
